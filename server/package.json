@@ -11,6 +11,7 @@
   "test": "tests"
  },
  "scripts": {
+  "build": "echo \"No build required for dakshayani-api\"",
   "dev": "node --watch src/server.js",
   "start": "node src/server.js",
   "seed": "node scripts/seed.js"
