@@ -94,3 +94,91 @@
 .success-box p {
     font-size:12px
 }
+
+
+/* ===============================================
+   DEMO ACCOUNT BUTTONS & ENHANCED AUTH STYLES
+   =============================================== */
+.demo-login-box {
+    background: #fbf6ec;
+    border: 1px dashed #dfc89d;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.demo-account-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--wine);
+    color: white;
+    border: 0;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+.demo-account-btn:hover {
+    background: var(--wine-soft);
+}
+.demo-account-btn svg {
+    color: var(--gold);
+}
+.demo-login-box small {
+    font-size: 11px;
+    color: #8b7965;
+}
+.auth-row-links {
+    display: flex;
+    justify-content: flex-end;
+}
+.auth-footer-links {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+}
+.auth-admin-link {
+    margin: 0 !important;
+    text-align: center;
+}
+.auth-admin-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #887a77;
+    font-weight: 700;
+}
+.auth-admin-link a:hover {
+    color: var(--wine);
+}
+
+.admin-demo-box {
+    margin-top: 15px;
+}
+.admin-quick-btn {
+    background: var(--gold);
+    color: #29121a;
+}
+.admin-quick-btn:hover {
+    background: #e2be79;
+}
+.admin-quick-btn svg {
+    color: #29121a;
+}
+.admin-login-foot {
+    margin-top: 15px;
+    text-align: center;
+}

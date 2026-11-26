@@ -1,18 +1,51 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CalendarDays, Clock3, Users, ArrowUpRight } from 'lucide-react';
-/** Collects date and guests; backend confirmation happens on /booking. */
+import { FileText, ArrowUpRight, Package, Building2 } from 'lucide-react';
+
+/** Collects category and quantity; navigates to /booking for full quote. */
 export function QuickReservation() {
     const navigate = useNavigate();
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('19:00');
-    const [guests, setGuests] = useState('2');
-    const minDate = () => { const now = new Date(); return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
-    function submit(e) { e.preventDefault(); navigate(`/booking?${new URLSearchParams({ date, time, guests })}`); }
-    return <form className="quick-reservation" onSubmit={submit} aria-label="Quick reservation request">
-  <div className="quick-reservation-heading"><span className="quick-icon"><CalendarDays size={20}/></span><div><small>MAKE A MEMORY</small><strong>Your table awaits.</strong></div></div>
-  <label><span><CalendarDays size={15}/> Preferred date</span><input type="date" min={minDate()} required value={date} onChange={e => setDate(e.target.value)}/></label>
-  <div className="quick-reservation-row"><label><span><Clock3 size={15}/> Time</span><input aria-label="Preferred time" type="time" required value={time} onChange={e => setTime(e.target.value)}/></label><label><span><Users size={15}/> Guests</span><select value={guests} onChange={e => setGuests(e.target.value)}>{Array.from({ length: 12 }, (_, i) => <option key={i} value={i + 1}>{i + 1} {i === 0 ? 'guest' : 'guests'}</option>)}</select></label></div>
-  <button className="quick-reservation-submit" type="submit">Request a table <ArrowUpRight size={18}/></button><p>Our team confirms each reservation personally.</p>
- </form>;
+    const [category, setCategory] = useState('School Uniform Sweaters');
+    const [quantity, setQuantity] = useState('100');
+
+    function submit(e) {
+        e.preventDefault();
+        navigate(`/booking?${new URLSearchParams({ category, quantity })}`);
+    }
+
+    return (
+        <form className="quick-reservation" onSubmit={submit} aria-label="Quick quotation request">
+            <div className="quick-reservation-heading">
+                <span className="quick-icon"><FileText size={20}/></span>
+                <div>
+                    <small>INSTITUTIONAL DIRECT</small>
+                    <strong>Request Fast Mill Quote</strong>
+                </div>
+            </div>
+            <label>
+                <span><Package size={15}/> Uniform Category</span>
+                <select value={category} onChange={e => setCategory(e.target.value)}>
+                    <option value="School Uniform Sweaters">School Uniform Sweaters</option>
+                    <option value="College & Academy Hoodies">College & Academy Hoodies</option>
+                    <option value="Corporate & Office Uniforms">Corporate & Office Uniforms</option>
+                    <option value="Industrial Workwear">Industrial Workwear</option>
+                </select>
+            </label>
+            <label>
+                <span><Building2 size={15}/> Estimated Quantity (Pieces)</span>
+                <input 
+                    type="number" 
+                    min="25" 
+                    required 
+                    value={quantity} 
+                    onChange={e => setQuantity(e.target.value)}
+                    placeholder="Min 50 pcs"
+                />
+            </label>
+            <button className="quick-reservation-submit" type="submit">
+                Get Mill Quote & Specs <ArrowUpRight size={18}/>
+            </button>
+            <p>Direct factory dispatch with GST billing from Ludhiana, Punjab.</p>
+        </form>
+    );
 }

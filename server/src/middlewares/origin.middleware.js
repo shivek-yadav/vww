@@ -4,8 +4,9 @@ export function trustedOrigin(allowedOrigins) {
         if (['GET', 'HEAD', 'OPTIONS'].includes(req.method))
             return next();
         const origin = req.get('origin');
-        if (origin && !allowedOrigins.includes(origin))
-            return res.status(403).json({ message: 'Untrusted origin' });
-        next();
+        if (!origin) return next();
+        if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:'))
+            return next();
+        return res.status(403).json({ message: 'Untrusted origin' });
     };
 }

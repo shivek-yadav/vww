@@ -25,6 +25,14 @@ const lineSchema = new Schema(
       type: Number,
       required: true,
       min: 0
+    },
+    sizeBreakdown: {
+      type: Schema.Types.Mixed,
+      default: {}
+    },
+    customization: {
+      type: Schema.Types.Mixed,
+      default: {}
     }
   },
   { _id: false }
@@ -40,52 +48,52 @@ const orderSchema = new Schema(
     customer: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      default: null
     },
     items: {
       type: [lineSchema],
       required: true
     },
+    totalPieces: {
+      type: Number,
+      default: 0
+    },
     fulfillment: {
       type: String,
-      enum: ['pickup', 'delivery'],
-      default: 'pickup'
+      default: 'road_transport'
     },
     address: {
       name: String,
+      orgName: String,
       phone: String,
+      email: String,
       line1: String,
       city: String,
-      pincode: String
+      state: String,
+      pincode: String,
+      gstin: String,
+      transportPreference: String
     },
     notes: {
       type: String,
       default: ''
     },
     subtotal: Number,
-    deliveryFee: Number,
+    deliveryFee: { type: Number, default: 0 },
+    discount: { type: Number, default: 0 },
+    tax: { type: Number, default: 0 },
+    promoCode: { type: String, default: '' },
     total: Number,
     paymentMethod: {
       type: String,
-      enum: ['pay_on_pickup', 'cash_on_delivery'],
-      required: true
+      default: 'bank_transfer'
     },
     paymentStatus: {
       type: String,
-      enum: ['unpaid', 'paid', 'refunded'],
       default: 'unpaid'
     },
     status: {
       type: String,
-      enum: [
-        'placed',
-        'accepted',
-        'preparing',
-        'ready',
-        'completed',
-        'rejected',
-        'cancelled'
-      ],
       default: 'placed'
     },
     statusHistory: [

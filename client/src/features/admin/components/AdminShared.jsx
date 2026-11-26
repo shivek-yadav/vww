@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { LayoutDashboard, Utensils, Tags, CalendarDays, ShoppingBag, Users, Images, FileText, MessageSquare, BarChart3, Settings, X, Plus, Pencil, Trash2, Save, Upload, Search, HelpCircle, Star, Activity } from 'lucide-react';
+import { LayoutDashboard, Package, Tags, ClipboardCheck, ShoppingBag, Users, Images, FileText, MessageSquare, BarChart3, Settings, X, Plus, Pencil, Trash2, Save, Upload, Search, HelpCircle, Star, Activity, Tag as TagIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api } from '../../../api';
 import { Loading, Empty, useFetch } from '../../../components/UI';
 export const text = (key, label, required = false, other = {}) => ({ key, label, type: 'text', required, ...other });
 export const boolean = (key, label) => ({ key, label, type: 'boolean' });
-export const navGroups = [{ heading: 'OVERVIEW', items: [['', 'Dashboard', LayoutDashboard]] }, { heading: 'RESTAURANT', items: [['menu', 'Menu Items', Utensils], ['categories', 'Categories', Tags], ['orders', 'Orders', ShoppingBag], ['bookings', 'Reservations', CalendarDays], ['customers', 'Customers', Users]] }, { heading: 'WEBSITE & CONTENT', items: [['gallery', 'Gallery', Images], ['content', 'Page Content', FileText], ['faqs', 'FAQs', HelpCircle], ['testimonials', 'Testimonials', Star]] }, { heading: 'BUSINESS', items: [['inquiries', 'Inquiries', MessageSquare], ['reports', 'Reports', BarChart3], ['activity', 'Activity Log', Activity], ['settings', 'Settings', Settings]] }];
+export const navGroups = [
+    { heading: 'OVERVIEW', items: [['', 'Dashboard', LayoutDashboard]] },
+    { heading: 'CLIENTS & CRM', items: [['inquiries', 'Client Inquiries & CRM', MessageSquare], ['orders', 'Wholesale Orders', ShoppingBag], ['bookings', 'Sample Requests & Quotes', ClipboardCheck], ['customers', 'Client Directory', Users], ['coupons', 'Coupons & Promo Codes', TagIcon]] },
+    { heading: 'PRODUCTS & CATALOG', items: [['menu', 'Product Catalog', Package], ['categories', 'Uniform Categories', Tags]] },
+    { heading: 'SHOWCASE & CMS', items: [['gallery', 'Showcase Gallery', Images], ['content', 'Page Content', FileText], ['faqs', 'Wholesale FAQs', HelpCircle], ['testimonials', 'Client Testimonials', Star]] },
+    { heading: 'FACTORY OPERATIONS', items: [['reports', 'Reports & Analytics', BarChart3], ['activity', 'Activity Log', Activity], ['settings', 'Factory Settings', Settings]] }
+];
 export const safeDate = (x) => x ? new Date(x).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
 export function AdminHeading({ title, subtitle, action }) { return <div className="admin-heading"><div><h1>{title}</h1><p>{subtitle}</p></div>{action}</div>; }
 export function Card({ children, title, action }) { return <section className="admin-card"><div className="admin-card-head"><h3>{title}</h3>{action}</div>{children}</section>; }

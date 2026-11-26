@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -7,6 +8,7 @@ import { Loading } from '../components/UI';
 import { Home } from '../features/public/pages/Home';
 import { About } from '../features/public/pages/About';
 import { MenuPage } from '../features/public/pages/MenuPage';
+import { ProductDetails } from '../features/public/pages/ProductDetails';
 import { Gallery } from '../features/public/pages/Gallery';
 import { Contact } from '../features/public/pages/Contact';
 import { BookingPage } from '../features/public/pages/BookingPage';
@@ -30,6 +32,7 @@ import { AdminOrders } from '../features/admin/pages/AdminOrders';
 import { AdminCustomers } from '../features/admin/pages/AdminCustomers';
 import { AdminGallery } from '../features/admin/pages/AdminGallery';
 import { AdminContent } from '../features/admin/pages/AdminContent';
+import { AdminCoupons } from '../features/admin/pages/AdminCoupons';
 import { AdminInquiries } from '../features/admin/pages/AdminInquiries';
 import { AdminReports } from '../features/admin/pages/AdminReports';
 import { AdminSettings } from '../features/admin/pages/AdminSettings';
@@ -45,18 +48,28 @@ function RequireRole({ role, children }) {
         return <Navigate to={role === 'admin' ? '/admin/login' : '/login'} state={{ from: location.pathname }} replace/>;
     return children;
 }
-function NotFound() { return <div className="container notfound"><h1>404</h1><h2>That page isn't on our menu.</h2><p>Let's get you back to something delicious.</p><a className="btn btn-gold" href="/">Return Home</a></div>; }
+function NotFound() { return <div className="container notfound"><h1>404</h1><h2>Product or Page Not Found</h2><p>Let's get you back to our uniform and knitwear catalog.</p><a className="btn btn-gold" href="/">Return to Catalog</a></div>; }
 
+function ScrollToTop() {
+    const { pathname } = useLocation();
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }, [pathname]);
+    return null;
+}
 
 export default function App() {
   return (
     <AppProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="menu" element={<MenuPage />} />
+            <Route path="product/:id" element={<ProductDetails />} />
+            <Route path="catalog/:id" element={<ProductDetails />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="contact" element={<Contact />} />
             <Route path="booking" element={<BookingPage />} />
@@ -65,14 +78,7 @@ export default function App() {
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="cart" element={<Cart />} />
-            <Route
-              path="checkout"
-              element={
-                <RequireRole role="customer">
-                  <Checkout />
-                </RequireRole>
-              }
-            />
+            <Route path="checkout" element={<Checkout />} />
             <Route
               path="account"
               element={
@@ -103,6 +109,7 @@ export default function App() {
             <Route path="bookings" element={<AdminBookings />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="customers" element={<AdminCustomers />} />
+            <Route path="coupons" element={<AdminCoupons />} />
             <Route path="gallery" element={<AdminGallery />} />
             <Route path="content" element={<AdminContent />} />
             <Route path="faqs" element={<AdminFaqs />} />

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as controller from '../controllers/public.controller.js';
+import { optionalAuth } from '../middlewares/auth.middleware.js';
 const router = Router();
 router.get('/settings/public', controller.get_settings_public);
 router.get('/categories', controller.get_categories);
@@ -9,5 +10,8 @@ router.get('/gallery', controller.get_gallery);
 router.get('/faqs', controller.get_faqs);
 router.get('/testimonials', controller.get_testimonials);
 router.get('/pages/:slug', controller.get_pages_slug);
-router.post('/inquiries', controller.post_inquiries);
+router.get('/coupons/validate', controller.validate_coupon);
+router.post('/inquiries', optionalAuth, controller.post_inquiries);
+router.post('/order-request', optionalAuth, controller.post_order_request);
+router.post('/orders', optionalAuth, controller.post_order_request);
 export default router;

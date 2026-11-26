@@ -158,3 +158,139 @@
     justify-content:center;
     margin-bottom:35px
 }
+
+
+/* ===============================================
+   ENHANCED FOOD CARD & MENU FILTERS
+   =============================================== */
+.food-card.is-sold-out {
+    opacity: 0.85;
+}
+.sold-out-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(22, 10, 16, 0.65);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.sold-out-overlay span {
+    background: #dc2626;
+    padding: 6px 14px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.food-tag.chef {
+    background: #fef3c7;
+    color: #92400e;
+}
+.food-tag.spicy {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.icon-add.in-cart {
+    background: var(--wine);
+    border-color: var(--wine);
+    color: white;
+}
+
+.category-filters-scroll-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+}
+.category-filters-scroll-wrap::-webkit-scrollbar {
+    display: none;
+}
+.category-filters-scroll-wrap .category-filters {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.menu-search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.search-clear-btn {
+    border: 0;
+    background: none;
+    color: #999;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    padding: 4px;
+}
+.search-clear-btn:hover {
+    color: #333;
+}
+
+.diet-toggles {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.diet-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: white;
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.diet-pill.active {
+    background: var(--wine);
+    color: white;
+    border-color: var(--wine);
+}
+.diet-pill.veg {
+    color: #15803d;
+}
+.diet-pill.veg.active {
+    background: #15803d;
+    color: white;
+    border-color: #15803d;
+}
+.diet-pill.popular {
+    color: var(--gold-dark);
+}
+.diet-pill.popular.active {
+    background: var(--gold-dark);
+    color: white;
+    border-color: var(--gold-dark);
+}
+
+.ordering-closed-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    color: #92400e;
+}
+.ordering-closed-banner p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #b45309;
+}

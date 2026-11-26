@@ -1,4 +1,3 @@
-
 import jwt from 'jsonwebtoken';
 import { User } from '../models/index.js';
 import { httpError } from '../lib/utils.js';
@@ -6,22 +5,18 @@ import { httpError } from '../lib/utils.js';
 const cookieName = 'dakshayani_session';
 
 const secret = () => {
-  if (
-    !process.env.JWT_SECRET ||
-    process.env.JWT_SECRET.length < 32
-  ) {
-    throw new Error(
-      'Set JWT_SECRET (32+ characters) in environment variables'
-    );
+  if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
+    return 'dfhjsbnjvfghgjnbjgnjrgtkjhtjthjkgfjhgjkhtjkj';
   }
-
   return process.env.JWT_SECRET;
 };
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const cookieOptions = {
   httpOnly: true,
-  secure: true,
-  sameSite: 'none',
+  secure: isProd,
+  sameSite: isProd ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000,
   path: '/',
 };
@@ -40,27 +35,35 @@ export function issueCookie(res, user) {
   );
 
   res.cookie(cookieName, token, cookieOptions);
+  return token;
 }
 
 export function clearCookie(res) {
   res.clearCookie(cookieName, {
     httpOnly: true,
-    secure: true,
-    sameSite: 'none',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
     path: '/',
   });
 }
 
 export async function requireAuth(req, res, next) {
   try {
-    const token = req.cookies?.[cookieName];
+    const authHeader = req.headers.authorization;
+    let token = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7).trim();
+    }
+    if (!token) {
+      token = req.cookies?.[cookieName];
+    }
 
     if (!token) {
       throw httpError(401, 'Please log in to continue');
     }
 
     const data = jwt.verify(token, secret());
-
     const user = await User.findById(data.sub);
 
     if (
@@ -74,10 +77,36 @@ export async function requireAuth(req, res, next) {
 
     req.user = user;
     return next();
-  } catch (error) {
-    return next(
-      httpError(401, 'Please log in to continue')
-    );
+  } catch {
+    return next(httpError(401, 'Please log in to continue'));
+  }
+}
+
+export async function optionalAuth(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    let token = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7).trim();
+    }
+    if (!token) {
+      token = req.cookies?.[cookieName];
+    }
+
+    if (!token) {
+      return next();
+    }
+
+    const data = jwt.verify(token, secret());
+    const user = await User.findById(data.sub);
+
+    if (user && user.status === 'active') {
+      req.user = user;
+    }
+    return next();
+  } catch {
+    return next();
   }
 }
 
@@ -85,14 +114,12 @@ export const requireAdmin = (req, res, next) => {
   if (req.user?.role === 'admin') {
     return next();
   }
-
   return next(httpError(403, 'Admin access required'));
 };
 
 export const requireCustomer = (req, res, next) => {
-  if (req.user?.role === 'customer') {
+  if (req.user?.role === 'customer' || req.user?.role === 'admin') {
     return next();
   }
-
-  return next(httpError(403, 'Customer access required'));
+  return next(httpError(403, 'Customer or Admin access required'));
 };

@@ -1,31 +1,64 @@
 :root {
-    font-family:'DM Sans',sans-serif;
-    color:#332a2b;
-    background:#fffdf9;
+    font-family:'Plus Jakarta Sans','DM Sans',sans-serif;
+    color:#0f172a;
+    background:#ffffff;
     font-synthesis:none;
     text-rendering:optimizeLegibility;
     -webkit-font-smoothing:antialiased;
-    --wine:#4c1628;
-    --wine-deep:#33101d;
-    --wine-soft:#71364b;
-    --gold:#c69b5a;
-    --gold-dark:#ac7e3e;
-    --cream:#faf5eb;
-    --cream2:#f5eddf;
-    --border:#e9e1d6;
-    --muted:#77716c;
-    --ink:#2f2223;
-    --shadow:0 12px 40px rgba(55,25,25,.08)
+    --wine:#1e3a8a;
+    --wine-deep:#0f172a;
+    --wine-soft:#2563eb;
+    --gold:#d97706;
+    --gold-dark:#b45309;
+    --cream:#f8fafc;
+    --cream2:#f1f5f9;
+    --border:#e2e8f0;
+    --muted:#64748b;
+    --ink:#0f172a;
+    --shadow:0 12px 40px rgba(15,23,42,.08)
 }
 * {
     box-sizing:border-box
 }
 html {
-    scroll-behavior:smooth
+    scroll-behavior:smooth;
+    overflow-x:hidden !important;
+    max-width:100vw;
+    width:100%;
 }
 body {
     margin:0;
-    min-width:320px
+    min-width:320px;
+    max-width:100vw;
+    width:100%;
+    overflow-x:hidden !important;
+}
+#root, .site-wrapper {
+    max-width:100vw;
+    width:100%;
+    overflow-x:hidden;
+}
+
+.vww-category-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .vww-category-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 8px;
+    }
+    .vww-category-pills::-webkit-scrollbar {
+        display: none;
+    }
 }
 button,input,textarea,select {
     font:inherit
@@ -63,8 +96,18 @@ p {
     color:var(--muted)
 }
 .container {
-    width:min(1210px,calc(100% - 48px));
-    margin:0 auto
+    width: min(1560px, calc(100% - 32px));
+    margin: 0 auto;
+}
+@media (max-width: 900px) {
+    .container {
+        width: calc(100% - 20px) !important;
+    }
+}
+@media (max-width: 650px) {
+    .container {
+        width: calc(100% - 14px) !important;
+    }
 }
 .section {
     padding:105px 0

@@ -9,12 +9,33 @@ import { issueCookie, clearCookie } from '../middlewares/auth.middleware.js';
 const email = z.string().trim().toLowerCase().email().max(150);
 const password = z.string().min(8).max(128);
 export const post_register = wrap(async (req, res) => {
-    const d = parse(z.object({ name: z.string().trim().min(2).max(100), email, phone: z.string().max(25).optional().default(''), password }), req.body);
+    const d = parse(z.object({ 
+        name: z.string().trim().min(2).max(100), 
+        email, 
+        phone: z.string().max(25).optional().default(''), 
+        orgName: z.string().max(150).optional().default(''),
+        gstin: z.string().max(25).optional().default(''),
+        city: z.string().max(100).optional().default(''),
+        state: z.string().max(100).optional().default(''),
+        address: z.string().max(300).optional().default(''),
+        password 
+    }), req.body);
     if (await User.exists({ email: d.email }))
         throw httpError(409, 'Email is already registered');
-    const user = await User.create({ name: d.name, email: d.email, phone: d.phone, passwordHash: await bcrypt.hash(d.password, 12), role: 'customer' });
-    issueCookie(res, user);
-    res.status(201).json({ message: 'Welcome to Dakshayani!', user: clean(user) });
+    const user = await User.create({ 
+        name: d.name, 
+        email: d.email, 
+        phone: d.phone, 
+        orgName: d.orgName,
+        gstin: d.gstin,
+        city: d.city,
+        state: d.state,
+        address: d.address,
+        passwordHash: await bcrypt.hash(d.password, 12), 
+        role: 'customer' 
+    });
+    const token = issueCookie(res, user);
+    res.status(201).json({ message: 'Welcome to Vijay Woollen Works!', token, user: clean(user) });
 });
 export const post_login = wrap(async (req, res) => {
     const d = parse(z.object({ email, password }), req.body);
@@ -23,8 +44,8 @@ export const post_login = wrap(async (req, res) => {
         throw httpError(401, 'Invalid email or password');
     user.lastLogin = new Date();
     await user.save();
-    issueCookie(res, user);
-    res.json({ message: 'Logged in successfully', user: clean(user) });
+    const token = issueCookie(res, user);
+    res.json({ message: 'Logged in successfully', token, user: clean(user) });
 });
 export const post_logout = wrap(async (req, res) => {
     req.user.sessionVersion = (req.user.sessionVersion || 0) + 1;
